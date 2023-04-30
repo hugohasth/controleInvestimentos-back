@@ -1,5 +1,7 @@
 package br.com.hugohasth.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ public class Setor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "cd_setor")
+	@JsonProperty("_id")
 	private Long id;
 	
 	@Column(name = "nm_setor", nullable = false)
