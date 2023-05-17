@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.com.hugohasth.model.Setor;
 
 @Repository
-public interface SetorRepository extends JpaRepository<Setor, String> {
+public interface SetorRepository extends JpaRepository<Setor, Long> {
 
 }
