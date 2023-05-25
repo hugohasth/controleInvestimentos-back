@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,7 +33,7 @@ public class SetorController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Setor> findById(@PathVariable Long id) {
 		return setorRepository.findById(id)
-				.map(setor -> ResponseEntity.ok().body(setor))
+				.map(setorEncontrado -> ResponseEntity.ok().body(setorEncontrado))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
@@ -40,6 +41,19 @@ public class SetorController {
 	@ResponseStatus(code=HttpStatus.CREATED)
 	public Setor create(@RequestBody Setor setor) {
 		return setorRepository.save(setor);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Setor> update(@PathVariable Long id, @RequestBody Setor setor) {
+		return setorRepository.findById(id)
+				.map(setorEncontrado -> {
+					setorEncontrado.setNome(setor.getNome());
+					setorEncontrado.setPorcentagem(setor.getPorcentagem());
+					setorEncontrado.setValor(setor.getValor());
+					Setor setorAtualizado = setorRepository.save(setorEncontrado);
+					return ResponseEntity.ok().body(setorAtualizado);
+				})
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 }
