@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
@@ -22,11 +24,15 @@ public class Setor {
 	private Long id;
 	
 	@Column(name = "nm_setor", nullable = false)
+	@NotNull
 	private String nome;
 
+	@NotNull
+	@DecimalMax(value = "100.0")
 	@Column(name = "pc_setor")
 	private Double porcentagem;
 
+	@NotNull
 	@Column(name = "vl_setor")
 	private Double valor;
 }
