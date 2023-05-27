@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.hugohasth.model.Setor;
 import br.com.hugohasth.repository.SetorRepository;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 
-
+@Validated
 @RestController
 @RequestMapping("/api/setores")
 @AllArgsConstructor
@@ -32,7 +36,7 @@ public class SetorController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Setor> findById(@PathVariable Long id) {
+	public ResponseEntity<Setor> findById(@PathVariable @NotNull @Positive Long id) {
 		return setorRepository.findById(id)
 				.map(setorEncontrado -> ResponseEntity.ok().body(setorEncontrado))
 				.orElse(ResponseEntity.notFound().build());
@@ -40,12 +44,12 @@ public class SetorController {
 	
 	@PostMapping
 	@ResponseStatus(code=HttpStatus.CREATED)
-	public Setor create(@RequestBody Setor setor) {
+	public Setor create(@RequestBody @Valid Setor setor) {
 		return setorRepository.save(setor);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Setor> update(@PathVariable Long id, @RequestBody Setor setor) {
+	public ResponseEntity<Setor> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Setor setor) {
 		return setorRepository.findById(id)
 				.map(setorEncontrado -> {
 					setorEncontrado.setNome(setor.getNome());
@@ -58,7 +62,7 @@ public class SetorController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
 		return setorRepository.findById(id)
 				.map(setorEncontrado -> {
 					setorRepository.deleteById(id);
