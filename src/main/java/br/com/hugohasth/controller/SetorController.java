@@ -3,7 +3,6 @@ package br.com.hugohasth.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +37,8 @@ public class SetorController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Setor> findById(@PathVariable @NotNull @Positive Long id) {
-		return setorService.findById(id)
-				.map(setorEncontrado -> ResponseEntity.ok().body(setorEncontrado))
-				.orElse(ResponseEntity.notFound().build());
+	public Setor findById(@PathVariable @NotNull @Positive Long id) {
+		return setorService.findById(id);
 	}
 	
 	@PostMapping
@@ -51,18 +48,14 @@ public class SetorController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Setor> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Setor setor) {
-		return setorService.update(id, setor)
-				.map(setorEncontrado -> ResponseEntity.ok().body(setorEncontrado))
-				.orElse(ResponseEntity.notFound().build());
+	public Setor update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Setor setor) {
+		return setorService.update(id, setor);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-		if(setorService.delete(id)) {
-			return ResponseEntity.noContent().<Void>build(); 
-		}
-		return ResponseEntity.notFound().build();
+	@ResponseStatus(code=HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable @NotNull @Positive Long id) {
+		setorService.delete(id);
 	}
 
 }
