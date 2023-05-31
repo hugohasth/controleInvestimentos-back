@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.hugohasth.dto.SetorDTO;
 import br.com.hugohasth.model.Setor;
 import br.com.hugohasth.service.SetorService;
 import jakarta.validation.Valid;
@@ -32,23 +33,23 @@ public class SetorController {
 	}
 	
 	@GetMapping
-	public List<Setor> list() {
+	public List<SetorDTO> list() {
 		return setorService.list();
 	}
 	
 	@GetMapping("/{id}")
-	public Setor findById(@PathVariable @NotNull @Positive Long id) {
+	public SetorDTO findById(@PathVariable @NotNull @Positive Long id) {
 		return setorService.findById(id);
 	}
 	
 	@PostMapping
 	@ResponseStatus(code=HttpStatus.CREATED)
-	public Setor create(@RequestBody @Valid Setor setor) {
+	public SetorDTO create(@RequestBody @Valid @NotNull SetorDTO setor) {
 		return setorService.create(setor);
 	}
 	
 	@PutMapping("/{id}")
-	public Setor update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Setor setor) {
+	public SetorDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull SetorDTO setor) {
 		return setorService.update(id, setor);
 	}
 	
