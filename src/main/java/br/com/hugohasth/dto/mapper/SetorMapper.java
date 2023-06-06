@@ -1,7 +1,11 @@
 package br.com.hugohasth.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
+import br.com.hugohasth.dto.AtivoDTO;
 import br.com.hugohasth.dto.SetorDTO;
 import br.com.hugohasth.model.Setor;
 
@@ -10,7 +14,11 @@ public class SetorMapper {
 	
 	public SetorDTO toDTO(Setor setor) {
 		if(setor == null) return null;
-		return new SetorDTO(setor.getId(), setor.getNome(), setor.getPorcentagem(), setor.getValor());
+		List<AtivoDTO> ativos = setor.getAtivos()
+				.stream()
+				.map(ativo -> new AtivoDTO(ativo.getId(), ativo.getNome(), ativo.getSigla(), ativo.getTipo(), ativo.getSegmento()))
+				.collect(Collectors.toList());
+		return new SetorDTO(setor.getId(), setor.getNome(), setor.getPorcentagem(), setor.getValor(), ativos);
 	}
 	
 	public Setor toEntity(SetorDTO setorDTO) {
