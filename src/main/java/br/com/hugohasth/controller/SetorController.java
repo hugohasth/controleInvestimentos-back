@@ -3,7 +3,6 @@ package br.com.hugohasth.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.hugohasth.dto.SetorDTO;
 import br.com.hugohasth.model.Setor;
 import br.com.hugohasth.service.SetorService;
 import jakarta.validation.Valid;
@@ -33,36 +33,30 @@ public class SetorController {
 	}
 	
 	@GetMapping
-	public List<Setor> list() {
+	public List<SetorDTO> list() {
 		return setorService.list();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Setor> findById(@PathVariable @NotNull @Positive Long id) {
-		return setorService.findById(id)
-				.map(setorEncontrado -> ResponseEntity.ok().body(setorEncontrado))
-				.orElse(ResponseEntity.notFound().build());
+	public SetorDTO findById(@PathVariable @NotNull @Positive Long id) {
+		return setorService.findById(id);
 	}
 	
 	@PostMapping
 	@ResponseStatus(code=HttpStatus.CREATED)
-	public Setor create(@RequestBody @Valid Setor setor) {
+	public SetorDTO create(@RequestBody @Valid @NotNull SetorDTO setor) {
 		return setorService.create(setor);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Setor> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Setor setor) {
-		return setorService.update(id, setor)
-				.map(setorEncontrado -> ResponseEntity.ok().body(setorEncontrado))
-				.orElse(ResponseEntity.notFound().build());
+	public SetorDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull SetorDTO setor) {
+		return setorService.update(id, setor);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-		if(setorService.delete(id)) {
-			return ResponseEntity.noContent().<Void>build(); 
-		}
-		return ResponseEntity.notFound().build();
+	@ResponseStatus(code=HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable @NotNull @Positive Long id) {
+		setorService.delete(id);
 	}
 
 }

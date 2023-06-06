@@ -1,12 +1,17 @@
 package br.com.hugohasth.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.NotNull;
@@ -35,4 +40,7 @@ public class Setor {
 	@NotNull
 	@Column(name = "vl_setor")
 	private Double valor;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "setor")
+	private List<Ativo> ativos = new ArrayList<Ativo>();
 }
