@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.hugohasth.dto.AtivoDTO;
 import br.com.hugohasth.dto.SetorDTO;
+import br.com.hugohasth.model.Ativo;
 import br.com.hugohasth.model.Setor;
 
 @Component
@@ -29,6 +30,19 @@ public class SetorMapper {
 		setor.setNome(setorDTO.nome());
 		setor.setPorcentagem(setorDTO.porcentagem());
 		setor.setValor(setorDTO.valor());
+		
+		List<Ativo> ativos = setorDTO.ativos().stream().map(ativoDTO -> {
+			var ativo = new Ativo();
+			ativo.setId(ativoDTO.id());
+			ativo.setNome(ativoDTO.nome());
+			ativo.setSigla(ativoDTO.sigla());
+			ativo.setTipo(ativoDTO.tipo());
+			ativo.setSegmento(ativoDTO.segmento());
+			ativo.setSetor(setor);
+			return ativo;
+		}).collect(Collectors.toList());
+		
+		setor.setAtivos(ativos);
 		
 		return setor;
 		
