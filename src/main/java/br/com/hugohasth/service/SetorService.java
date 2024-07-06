@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import br.com.hugohasth.dto.SetorDTO;
 import br.com.hugohasth.dto.mapper.SetorMapper;
 import br.com.hugohasth.exception.RegistroNaoEncontradoException;
+import br.com.hugohasth.model.Setor;
 import br.com.hugohasth.repository.SetorRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -42,16 +43,19 @@ public class SetorService {
 		return setorRepository.findById(id).map(setorMapper::toDTO).orElseThrow(() -> new RegistroNaoEncontradoException(id));
 	}
 	
-	public SetorDTO create(@Valid @NotNull SetorDTO setor) {
-		return setorMapper.toDTO(setorRepository.save(setorMapper.toEntity(setor)));
+	public SetorDTO create(@Valid @NotNull SetorDTO setorDTO) {
+		return setorMapper.toDTO(setorRepository.save(setorMapper.toEntity(setorDTO)));
 	}
 	
-	public SetorDTO update(@PathVariable @NotNull @Positive Long id, @Valid @NotNull SetorDTO setor) {
+	public SetorDTO update(@PathVariable @NotNull @Positive Long id, @Valid @NotNull SetorDTO setorDTO) {
 		return setorRepository.findById(id)
 				.map(setorEncontrado -> {
-					setorEncontrado.setNome(setor.nome());
-					setorEncontrado.setPorcentagem(setor.porcentagem());
-					setorEncontrado.setValor(setor.valor());
+					Setor setor = setorMapper.toEntity(setorDTO);
+					setorEncontrado.setNome(setorDTO.nome());
+					setorEncontrado.setPorcentagem(setorDTO.porcentagem());
+					setorEncontrado.setValor(setorDTO.valor());
+					setorEncontrado.getAtivos().clear();
+					setor.getAtivos().forEach(setorEncontrado.getAtivos()::add);
 					return setorMapper.toDTO(setorRepository.save(setorEncontrado));
 				}).orElseThrow(() -> new RegistroNaoEncontradoException(id));
 	}
