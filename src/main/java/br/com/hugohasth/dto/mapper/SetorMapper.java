@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import br.com.hugohasth.dto.AtivoDTO;
 import br.com.hugohasth.dto.SetorDTO;
+import br.com.hugohasth.enums.SegmentoAtivo;
+import br.com.hugohasth.enums.TipoAtivo;
 import br.com.hugohasth.model.Ativo;
 import br.com.hugohasth.model.Setor;
 
@@ -17,7 +19,7 @@ public class SetorMapper {
 		if(setor == null) return null;
 		List<AtivoDTO> ativos = setor.getAtivos()
 				.stream()
-				.map(ativo -> new AtivoDTO(ativo.getId(), ativo.getNome(), ativo.getSigla(), ativo.getTipo(), ativo.getSegmento()))
+				.map(ativo -> new AtivoDTO(ativo.getId(), ativo.getNome(), ativo.getSigla(), ativo.getTipo().name(), ativo.getSegmento().name()))
 				.collect(Collectors.toList());
 		return new SetorDTO(setor.getId(), setor.getNome(), setor.getPorcentagem(), setor.getValor(), ativos);
 	}
@@ -36,8 +38,8 @@ public class SetorMapper {
 			ativo.setId(ativoDTO.id());
 			ativo.setNome(ativoDTO.nome());
 			ativo.setSigla(ativoDTO.sigla());
-			ativo.setTipo(ativoDTO.tipo());
-			ativo.setSegmento(ativoDTO.segmento());
+			ativo.setTipo(TipoAtivo.valueOf(ativoDTO.tipo()));
+			ativo.setSegmento(SegmentoAtivo.valueOf(ativoDTO.segmento()));
 			ativo.setSetor(setor);
 			return ativo;
 		}).collect(Collectors.toList());

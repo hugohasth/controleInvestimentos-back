@@ -2,8 +2,12 @@ package br.com.hugohasth.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import br.com.hugohasth.enums.SegmentoAtivo;
+import br.com.hugohasth.enums.TipoAtivo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,14 +43,16 @@ public class Ativo {
 	private String sigla;
 
 	@NotNull
-	@NotBlank
+//	@NotBlank
 	@Column(name = "tp_ativo", nullable = false)
-	private String tipo;
+    @Enumerated(EnumType.ORDINAL)
+    private TipoAtivo tipo;
 
 	@NotNull
-	@NotBlank
+//	@NotBlank
 	@Column(name = "cd_segmento", nullable = true)
-	private String segmento;
+    @Enumerated(EnumType.ORDINAL)
+    private SegmentoAtivo segmento;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
