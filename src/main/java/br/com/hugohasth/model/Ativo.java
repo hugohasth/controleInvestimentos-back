@@ -11,7 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -24,23 +26,29 @@ public class Ativo {
 	@Column(name = "cd_ativo")
 	@JsonProperty("_id")
 	private Long id;
-	
+
+	@NotNull
+	@NotBlank	
+	@Size(min = 5, max = 100, message = "O nome do ativo deve ter entre 5 e 100 caracteres")
 	@Column(name = "nm_ativo", nullable = false)
-	@NotNull
 	private String nome;
-	
+
+	@NotNull
+	@NotBlank
 	@Column(name = "sg_ativo", nullable = false)
-	@NotNull	
 	private String sigla;
-	
+
+	@NotNull
+	@NotBlank
 	@Column(name = "tp_ativo", nullable = false)
-	@NotNull
 	private String tipo;
-	
-	@Column(name = "cd_segmento", nullable = true)
+
 	@NotNull
+	@NotBlank
+	@Column(name = "cd_segmento", nullable = true)
 	private String segmento;
-	
+
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "cd_setor", nullable = false)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

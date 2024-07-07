@@ -13,7 +13,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -27,9 +30,10 @@ public class Setor {
 	@Column(name = "cd_setor")
 	@JsonProperty("_id")
 	private Long id;
-	
-	@Column(name = "nm_setor", nullable = false)
+
 	@NotNull
+	@NotBlank
+	@Column(name = "nm_setor", nullable = false)
 	private String nome;
 
 	@NotNull
@@ -41,6 +45,9 @@ public class Setor {
 	@Column(name = "vl_setor")
 	private Double valor;
 	
+	@NotNull
+	@NotEmpty
+	@Valid
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "setor")
 	private List<Ativo> ativos = new ArrayList<Ativo>();
 }
