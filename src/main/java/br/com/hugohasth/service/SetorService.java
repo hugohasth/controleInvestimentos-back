@@ -3,11 +3,14 @@ package br.com.hugohasth.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import br.com.hugohasth.dto.SetorDTO;
+import br.com.hugohasth.dto.SetorPageDTO;
 import br.com.hugohasth.dto.mapper.SetorMapper;
 import br.com.hugohasth.exception.RegistroNaoEncontradoException;
 import br.com.hugohasth.model.Setor;
@@ -30,12 +33,10 @@ public class SetorService {
 	}
 	
 	
-	public List<SetorDTO> list() {
-		return setorRepository
-				.findAll()
-				.stream()
-				.map(setorMapper::toDTO)
-				.collect(Collectors.toList());
+	public SetorPageDTO list(int pageNumber, int pageSize) {
+		Page<Setor> page = setorRepository.findAll(PageRequest.of(pageNumber, pageSize));
+		List<SetorDTO> setores = page.get().map(setorMapper::toDTO).collect(Collectors.toList());
+		return new SetorPageDTO(setores, page.getTotalElements(), page.getTotalPages());
 	}
 	
 
