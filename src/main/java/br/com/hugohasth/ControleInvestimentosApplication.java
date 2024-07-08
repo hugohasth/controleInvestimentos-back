@@ -23,37 +23,40 @@ public class ControleInvestimentosApplication {
 		return args -> {
 			setorRepository.deleteAll();
 			
-			Setor s = new Setor();
-			s.setNome("AÇÕES (BRASIL)");
-			s.setPorcentagem(55.0);
-			s.setValor(36075.49);
-			Ativo a = new Ativo();
-			a.setNome("VALE S.A.");
-			a.setSetor(s);
-			a.setSigla("VALE3");
-			a.setTipo(TipoAtivo.ACAO);
-			a.setSegmento(SegmentoAtivo.MINERAIS_METÁLICOS);
-			s.getAtivos().add(a);
-			setorRepository.save(s);
-			s = new Setor();
-			s.setNome("AÇÕES (USA)");
-			s.setPorcentagem(35.0);
-			s.setValor(4550.83); 
-			a = new Ativo();
-			a.setNome("BERKSHIRE HATHAWAY INC.");
-			a.setSetor(s);
-			a.setSigla("NYSE:BRK.B");
-			a.setTipo(TipoAtivo.ACAO);
-			a.setSegmento(SegmentoAtivo.CONGLOMERADO);
-			s.getAtivos().add(a);
-			a = new Ativo();
-			a.setNome("AMAZON.COM INC.");
-			a.setSetor(s);
-			a.setSigla("NASDAQ:AMZN");
-			a.setTipo(TipoAtivo.ACAO);
-			a.setSegmento(SegmentoAtivo.VAREJO);
-			s.getAtivos().add(a);
-			setorRepository.save(s);
+			for(int i = 0; i<20; i++) {
+				Setor s = new Setor();
+				s.setNome("AÇÕES (BRASIL) " + i);
+				s.setPorcentagem(55.0);
+				s.setValor(36075.49);
+				Ativo a = new Ativo();
+				a.setNome("VALE S.A.");
+				a.setSetor(s);
+				a.setSigla("VALE3");
+				a.setTipo(TipoAtivo.ACAO);
+				a.setSegmento(SegmentoAtivo.MINERAIS_METÁLICOS);
+				s.getAtivos().add(a);
+				setorRepository.save(s);
+				s = new Setor();
+				s.setNome("AÇÕES (USA) " + i);
+				s.setPorcentagem(35.0);
+				s.setValor(4550.83); 
+				a = new Ativo();
+				a.setNome("BERKSHIRE HATHAWAY INC.");
+				a.setSetor(s);
+				a.setSigla("NYSE:BRK.B");
+				a.setTipo(TipoAtivo.ACAO);
+				a.setSegmento(SegmentoAtivo.CONGLOMERADO);
+				s.getAtivos().add(a);
+				a = new Ativo();
+				a.setNome("AMAZON.COM INC.");
+				a.setSetor(s);
+				a.setSigla("NASDAQ:AMZN");
+				a.setTipo(TipoAtivo.ACAO);
+				a.setSegmento(SegmentoAtivo.VAREJO);
+				s.getAtivos().add(a);
+				setorRepository.save(s);
+			}
+			
 		};
 	}
 
