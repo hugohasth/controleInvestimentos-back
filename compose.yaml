@@ -1,0 +1,11 @@
+services:
+  mysql:
+    image: 'mysql:8.0'
+#    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=ctrl_invst'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_USER=developer'
+    ports:
+      - '3306:3306'
